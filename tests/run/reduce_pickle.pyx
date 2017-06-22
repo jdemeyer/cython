@@ -148,3 +148,14 @@ cdef class NoReduceDueToNontrivialCInit(object):
     """
     def __cinit__(self, arg):
         pass
+
+cdef class EmptyClass:
+    pass
+
+class MyList(EmptyClass, list):
+    """
+    >>> obj = MyList()
+    >>> from pickle import loads, dumps
+    >>> loads(dumps(obj))
+    []
+    """

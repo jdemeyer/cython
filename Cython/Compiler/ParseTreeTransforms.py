@@ -1628,7 +1628,11 @@ if VALUE is not None:
                         from pickle import PickleError
                         raise PickleError("Incompatible checksums (%%s vs %(checksum)s = (%(members)s))" %% __pyx_checksum)
                     cdef %(class_name)s result
-                    result = %(class_name)s.__new__(__pyx_type)
+                    cdef type tp
+                    if not isinstance(__pyx_type, type):
+                        raise TypeError("class argument isn't a type object")
+                    tp = <type>__pyx_type
+                    result = tp.__new__(tp)
                     %(assignments)s
                     if hasattr(result, '__setstate__'):
                         result.__setstate__(__pyx_state)
